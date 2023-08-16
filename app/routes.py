@@ -7,23 +7,23 @@ from app.models import User
 def index():
     return render_template('index.html')
 
-@app.route('/signup', method =['GET', 'POST'])
-def signup():
+@app.route('/contact', methods =["GET", "POST"])
+def contact():
     form = SignUpForm()
     if form.validate_on_submit():
         first_name = form.first_name.data
         last_name = form.last_name.data
         phone = form.phone.data
         address = form.address.data
-    
-        check_user = db.session.execute(db.select(User).where( (User.phone == phone))).scalar()
-        if check_user:
-            return redirect(url_for('signup'))
+        # How to check if there is a table already?
+        # check_user = db.session.execute(db.select(User).where( (User.phone == phone))).scalar()
+        # if check_user:
+        #     return redirect(url_for('contact'))
     
         new_user = User(first_name = first_name, last_name = last_name, phone = phone, address = address)
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for(''))
+        return redirect(url_for('index'))
     
-    return render_template('signup.html', form = form)
+    return render_template('contact.html', form = form)
