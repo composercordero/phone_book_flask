@@ -16,7 +16,7 @@ class Contact(db.Model):
         super().__init__(**kwargs)
 
     def __repr__(self):
-        return f"< Contact {self.id}|{self.username} >"
+        return f"< Contact {self.id} | {self.first_name} >"
     
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)

@@ -8,6 +8,12 @@ from flask_login import login_user, logout_user, login_required, current_user
 def index():
     return render_template('index.html')
 
+@app.route('/my_contacts')
+def my_contacts():
+    contacts = db.session.execute(db.select(Contact).where(Contact.user_id == current_user.id)).scalars().all() 
+    # SELECT FROM TABLE contact WHERE user.id LIKE current_user.id
+    return render_template('my_contacts.html', contacts = contacts)
+
 @app.route('/contact', methods =["GET", "POST"])
 def contact():
     form = ContactForm()
