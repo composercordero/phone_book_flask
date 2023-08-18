@@ -23,6 +23,11 @@ def contact():
         phone = form.phone.data
         address = form.address.data
 
+        # check_user = db.session.execute(db.select(Contact).where( (Contact.phone == phone))).scalar()
+        # if check_user:
+        #     flash('A user with that username already exists', 'danger')
+        #     return redirect(url_for('contact'))
+    
         new_contact = Contact(first_name = first_name, last_name = last_name, phone = phone, address = address, user_id = current_user.id)
         db.session.add(new_contact)
         db.session.commit()
