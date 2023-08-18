@@ -17,7 +17,7 @@ def verify(username, password):
 def handle_error(status):
     return {'error': 'Incorrect username and/or password.'}, status
 
-@token_auth.verify_password
+@token_auth.verify_token
 def verify(token):
     user = db.session.execute(db.select(User).where(User.token == token)).scalar()
     if user is not None and user.token_expiration > datetime.utcnow():

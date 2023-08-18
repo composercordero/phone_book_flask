@@ -11,4 +11,6 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 
+from app.blueprints.api import api
+app.register_blueprint(api)
 from app import routes, models
