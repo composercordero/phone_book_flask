@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-6">
+    <div class="card mt-3">
+        <div class="card-body">
+            <form action="" method="post">
+
+                {{ form.csrf_token }}
+
+                {{ form.first_name.label }}
+                {{ form.first_name(class='form-control', value=current_contact.first_name) }}
+        
+                {{ form.last_name.label }}
+                {{ form.last_name(class='form-control', value=current_contact.last_name) }}
+        
+                {{ form.phone.label }}
+                {{ form.phone(class='form-control', value=current_contact.phone) }}
+        
+                {{ form.address.label }}
+                {{ form.address(class='form-control', value=current_contact.address) }}
+
+                {{ form.submit(class='btn btn-success mt-3')}}
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}

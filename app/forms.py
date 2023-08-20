@@ -24,3 +24,15 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
     submit = SubmitField('Sign Up')
+
+class UpdateForm(FlaskForm):
+    first_name = StringField('First Name', validators = [InputRequired()])
+    last_name = StringField('Last Name', validators = [InputRequired()])
+    phone = StringField('Phone', validators = [InputRequired()])
+    address = StringField('Address', validators = [InputRequired()])
+    submit = SubmitField('Update contact')
+
+class ModifyForm(FlaskForm):
+    contact_id = StringField('Contact ID', validators = [InputRequired()])
+    update = SubmitField('action')
+    delete = SubmitField('action')

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-6">
+    <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Address</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for contact in contacts %}
+            <tr>
+            <th scope="row">{{ contact.id }}</th>
+            <td>{{ contact.first_name }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.address }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+    </table>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <form action="" method="post">
+
+                {{ form.csrf_token }}
+
+                {{ form.contact_id.label }}
+                {{ form.contact_id(class='form-control', placeholder='Enter Contact ID') }}
+
+                {{ form.update(class='btn btn-success mt-3', value='update')}}
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}
