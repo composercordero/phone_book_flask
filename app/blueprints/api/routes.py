@@ -1,6 +1,6 @@
 from . import api
 from app import db
-from app.models import Contact
+from app.models import Contact, User
 from flask import request
 from .auth import basic_auth, token_auth
 
@@ -11,6 +11,37 @@ def get_token():
     token = auth_user.get_token()
     return {'token': token,
             'token_exp': auth_user.token_expiration}
+
+@api.route('/users', methods=['POST', 'GET'])
+def create_user():
+    if not request.is_json:
+        return {'error': 'Your content-type must be application-type JSON'}, 400
+    data = request.json
+
+    required_fields = ['first_name', 'last_name', 'email', 'username', 'password']
+    missing_fields = []
+
+    for field in required_fields:
+        if field not in data:
+            missing_fields.append(field)
+    if missing_fields:
+        return {'error': f"{', '.join(missing_fields)} must be in the request body"}, 400
+    
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    email = data.get('email')
+    username = data.get('username')
+    password = data.get('password')
+
+    check_user = db.session.execute(db.select(User).where( (User.username==username) | (User.email==email) )).scalar()
+    if check_user:
+        return {'error': 'User and/or email already exists'}, 400
+    
+    new_user = User(first_name = first_name, last_name = last_name, email = email,username =username, password = password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return new_user.to_dict(), 201
 
 @api.route('/user/me')
 @token_auth.login_required
@@ -29,7 +60,7 @@ def get_contact(contact_id):
     if contact:
         return contact.to_dict()
     else:
-        return {'error' f'Contact with an ID of {contact_id} does not exist'}, 404
+        return {'error:' f'Contact with an ID of {contact_id} does not exist'}, 404
 
 @api.route('/contacts', methods=['POST'])
 @token_auth.login_required
