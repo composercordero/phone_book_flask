@@ -20,7 +20,7 @@ def modify():
     contacts = db.session.execute(db.select(Contact).where(Contact.author == current_user)).scalars().all()
     if form.validate_on_submit():
         contact_id = form.contact_id.data
-        return redirect(url_for('update_contact', contact_id == contact_id))
+        return redirect(url_for('update_contact', contact_id = contact_id))
     return render_template('modify.html', contacts = contacts, form=form)
 
 @app.route('/contact', methods =["GET", "POST"])
